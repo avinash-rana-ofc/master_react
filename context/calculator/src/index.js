@@ -4,13 +4,16 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { CalculatorContextProvider } from "./store/CalculatorContext";
+import ThemeContextProvider from "./store/ThemeContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <CalculatorContextProvider>
-      <App />
-    </CalculatorContextProvider>
+    <ThemeContextProvider>
+      <CalculatorContextProvider>
+        <App />
+      </CalculatorContextProvider>
+    </ThemeContextProvider>
   </React.StrictMode>
 );
 

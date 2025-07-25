@@ -5,3 +5,5 @@ const themeSlice = createSlice({
     initialState : "light",
     reducers : {},
 });
+
+export default themeSlice.reducer;

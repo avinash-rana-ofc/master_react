@@ -5,15 +5,26 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { CalculatorContextProvider } from "./store/CalculatorContext";
 import ThemeContextProvider from "./store/ThemeContext";
+import { configureStore } from "@reduxjs/toolkit";
+import themeReducer from "./store/themeSlice";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const store = configureStore({
+  reducer: {
+    theme: themeReducer,
+  },
+});
 root.render(
   <React.StrictMode>
-    <ThemeContextProvider>
-      <CalculatorContextProvider>
-        <App />
-      </CalculatorContextProvider>
-    </ThemeContextProvider>
+    <Provider store={store}>
+      <ThemeContextProvider>
+        <CalculatorContextProvider>
+          <App />
+        </CalculatorContextProvider>
+      </ThemeContextProvider>
+    </Provider>
   </React.StrictMode>
 );
 

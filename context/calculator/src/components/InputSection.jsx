@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { CalculatorContext } from "../store/CalculatorContext";
-import { ThemeContext } from "../store/ThemeContext";
+import { useSelector } from "react-redux";
 
 const InputSection = () => {
   const { inputData, handleInputChange } = useContext(CalculatorContext);
-  const { theme } = useContext(ThemeContext);
+  const theme = useSelector((state) => state.theme);
   return (
     <div className="space-y-3 p-5 border rounded-md w-[300px] h-[250px]">
       <div className="gap-1 grid">

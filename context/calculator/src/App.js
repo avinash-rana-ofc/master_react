@@ -4,9 +4,13 @@ import CalculateSection from "./components/CalculateSection";
 import ResultSection from "./components/ResultSection";
 import { useContext } from "react";
 import { ThemeContext } from "./store/ThemeContext";
+import { useSelector } from "react-redux";
 
 function App() {
-  const { theme, handleClick } = useContext(ThemeContext);
+  const { handleClick } = useContext(ThemeContext);
+
+  const theme = useSelector((state) => state.theme);
+  console.log(theme);
   return (
     <div
       className={`w-full h-screen ${

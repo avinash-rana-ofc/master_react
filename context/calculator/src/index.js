@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { CalculatorContextProvider } from "./store/CalculatorContext";
-import ThemeContextProvider from "./store/ThemeContext";
 import { configureStore } from "@reduxjs/toolkit";
 import themeReducer from "./store/themeSlice";
 import { Provider } from "react-redux";
@@ -19,11 +18,9 @@ const store = configureStore({
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ThemeContextProvider>
         <CalculatorContextProvider>
           <App />
         </CalculatorContextProvider>
-      </ThemeContextProvider>
     </Provider>
   </React.StrictMode>
 );

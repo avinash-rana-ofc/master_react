@@ -2,15 +2,14 @@ import "./App.css";
 import InputSection from "./components/InputSection";
 import CalculateSection from "./components/CalculateSection";
 import ResultSection from "./components/ResultSection";
-import { useContext } from "react";
-import { ThemeContext } from "./store/ThemeContext";
-import { useSelector } from "react-redux";
+import {toggleTheme} from "./store/themeSlice"
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
-  const { handleClick } = useContext(ThemeContext);
 
+  const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
-  console.log(theme);
+
   return (
     <div
       className={`w-full h-screen ${
@@ -20,7 +19,7 @@ function App() {
       <button
         type="button"
         className="bg-blue-500 rounded-md px-4 py-2 m-2 text-white"
-        onClick={handleClick}
+        onClick={() => dispatch(toggleTheme())}
       >
         Theme {theme}
       </button>

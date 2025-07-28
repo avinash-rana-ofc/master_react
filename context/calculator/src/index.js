@@ -7,20 +7,22 @@ import { CalculatorContextProvider } from "./store/CalculatorContext";
 import { configureStore } from "@reduxjs/toolkit";
 import themeReducer from "./store/themeSlice";
 import { Provider } from "react-redux";
+import calculatorReducer from "./store/calculatorSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const store = configureStore({
   reducer: {
     theme: themeReducer,
+    calculator : calculatorReducer,
   },
 });
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-        <CalculatorContextProvider>
-          <App />
-        </CalculatorContextProvider>
+      <CalculatorContextProvider>
+        <App />
+      </CalculatorContextProvider>
     </Provider>
   </React.StrictMode>
 );

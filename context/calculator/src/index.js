@@ -20,9 +20,7 @@ const store = configureStore({
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <CalculatorContextProvider>
         <App />
-      </CalculatorContextProvider>
     </Provider>
   </React.StrictMode>
 );

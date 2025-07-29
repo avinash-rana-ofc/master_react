@@ -32,8 +32,17 @@ function App() {
         lastName: "Rana",
       }),
     })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  };
+
+  const handleDeleteUser = () => {
+    fetch("https://dummyjson.com/users/1", {
+      method: "DELETE",
+    })
     .then((response) => response.json())
     .then((data) => console.log(data))
+
   };
 
   return (
@@ -48,10 +57,18 @@ function App() {
 
       <button
         type="button"
-        className="border bg-red-200 px-3 py-1 text-xs"
+        className="border bg-red-200 px-3 py-1 text-xs mr-4"
         onClick={handleEditUser}
       >
-        Edit
+        Edit User
+      </button>
+
+      <button
+        type="button"
+        className="border bg-red-600 px-3 py-1 text-xs"
+        onClick={handleDeleteUser}
+      >
+        Delete User
       </button>
       {users.map((user) => (
         <div className="p-2 border border-gray-100 rounded-md" key={user.id}>

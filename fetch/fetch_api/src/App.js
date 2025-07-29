@@ -37,11 +37,20 @@ function App() {
   };
 
   const handleDeleteUser = () => {
-    fetch("https://dummyjson.com/users/1", {
+    fetch("https://dummyjson.com/users/0", {
       method: "DELETE",
     })
-    .then((response) => response.json())
+    .then(async(response) => {
+      if(response.ok){
+        return response.json();
+      }
+      else{
+        let errData = await response.json();
+        throw new Error(errData.message);
+      }
+    })
     .then((data) => console.log(data))
+    .catch((err) => alert( err))
 
   };
 

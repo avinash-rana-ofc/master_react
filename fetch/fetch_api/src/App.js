@@ -36,22 +36,23 @@ function App() {
       .then((data) => console.log(data));
   };
 
-  const handleDeleteUser = () => {
-    fetch("https://dummyjson.com/users/0", {
-      method: "DELETE",
-    })
-    .then(async(response) => {
-      if(response.ok){
-        return response.json();
-      }
-      else{
-        let errData = await response.json();
-        throw new Error(errData.message);
-      }
-    })
-    .then((data) => console.log(data))
-    .catch((err) => alert( err))
+  const handleDeleteUser = async () => {
+    try {
+      const response = await fetch("https://dummyjson.com/users/0", {
+        method: "DELETE",
+      });
 
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log(data);
+      } else {
+        throw new Error(data.message);
+      }
+
+    } catch (error) {
+      alert( error);
+    }
   };
 
   return (

@@ -7,25 +7,22 @@ const pool = new Pool({
   user: "postgres",
   password: "root",
   database: "local_db",
-  port: 5432
+  port: 5432,
 });
 
-// you can also use async/await
-
-//await pool.end();
 
 const PORT = process.env.PORT;
 const app = express();
 
-app.get("/", async(req, res) => {
-  pool.connect((err, client, release) => {
+//test connection
+app.get("/", async (req, res) => {
+  const rows = await pool.query("SELECT * FROM products", (err, result) => {
     if(err){
       res.status(500).send(err);
     }
 
-    res.status(200).send("Connection Established");
-  });
-  
+    res.status(200).send(result.rows);
+  })
 });
 
 app.listen(PORT, () => {

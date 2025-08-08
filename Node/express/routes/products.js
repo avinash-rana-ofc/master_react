@@ -41,4 +41,40 @@ router.post("/add", async (req, res) => {
   }
 });
 
+//get products by id
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const results = await pool.query("SELECT * FROM products WHERE id = $1", [
+      id,
+    ]);
+    res.status(200).send(results.rows);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error });
+  }
+});
+
+//update products
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { image, name, price, description } = req.body;
+
+  try {
+    const results = await pool.query(
+      "UPDATE products SET image = $1, name = $2, price = $3, description = $4 WHERE id = $5 RETURNING *",
+      [image, name, price, description, id]
+    );
+
+    if (results.rowCount === 0) {
+      return res.status(404).send({error : "Product not found."});
+    }
+
+    res.status(201).send(results.rows);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;

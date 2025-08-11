@@ -1,13 +1,13 @@
 const express = require("express");
-require("dotenv").config();
+//require("dotenv").config();
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  host: "localhost",
-  user: "postgres",
-  password: "root",
-  database: "local_db",
-  port: 5432,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
 });
 
 const PORT = process.env.PORT;
@@ -67,12 +67,30 @@ router.put("/:id", async (req, res) => {
     );
 
     if (results.rowCount === 0) {
-      return res.status(404).send({error : "Product not found."});
+      return res.status(404).send({ error: "Product not found." });
     }
 
     res.status(201).send(results.rows);
   } catch (error) {
     console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+//DELETE PRODUCTS
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const results = await pool.query(
+      "DELETE FROM products WHERE id = $1 RETURNING *",
+      [id]
+    );
+    if (results.rows.length === 0) {
+      res.status(200).send("No products found to delete");
+    }
+
+    res.status(200).send(results.rows);
+  } catch (error) {
     res.status(500).send(error);
   }
 });

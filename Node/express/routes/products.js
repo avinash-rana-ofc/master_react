@@ -67,12 +67,30 @@ router.put("/:id", async (req, res) => {
     );
 
     if (results.rowCount === 0) {
-      return res.status(404).send({error : "Product not found."});
+      return res.status(404).send({ error: "Product not found." });
     }
 
     res.status(201).send(results.rows);
   } catch (error) {
     console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+//DELETE PRODUCTS
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const results = await pool.query(
+      "DELETE FROM products WHERE id = $1 RETURNING *",
+      [id]
+    );
+    if (results.rows.length === 0) {
+      res.status(200).send("No products found to delete");
+    }
+
+    res.status(200).send(results.rows);
+  } catch (error) {
     res.status(500).send(error);
   }
 });

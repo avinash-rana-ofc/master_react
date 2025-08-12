@@ -3,6 +3,9 @@ import { useSelector } from "react-redux";
 
 const Products = () => {
   const products = useSelector((state) => state.products);
+  fetch("https://localhost:3000/products").then((resposne) => {
+    console.log(resposne);
+  })
 
   return (
     <>

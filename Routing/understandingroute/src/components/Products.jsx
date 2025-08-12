@@ -1,20 +1,29 @@
 import { Link, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const Products = () => {
   const products = useSelector((state) => state.products);
-  fetch("https://localhost:3000/products").then((response) => {
-    console.log(response);
-  })
+
+  useEffect(() => {
+    fetch("http://localhost:5000/products")
+      .then((response) => {
+        const data = response.json();
+        if (response.ok) {
+          return data;
+        } else {
+          throw new Error(data);
+        }
+      })
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <>
       <div className="flex gap-4 m-6">
         {products.map((product) => (
-          <Link
-            to={`/product-details/${product.id}`}
-            key={product.id}
-          >
+          <Link to={`/product-details/${product.id}`} key={product.id}>
             <div
               className="shadow-md border border-gray-200 rounded-md w-fit"
               key={product.id}

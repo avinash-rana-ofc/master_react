@@ -32,7 +32,9 @@ router.post("/add", async (req, res) => {
       "INSERT INTO products (image, name, price, description) VALUES ( $1, $2, $3, $4) RETURNING *",
       [image, name, price, description]
     );
-    res.status(201).send({message: "Data Inserted successfully", data : results.rows[0]});
+    res
+      .status(201)
+      .send({ message: "Data Inserted successfully", data: results.rows[0] });
   } catch (error) {
     if (err) {
       res.status(500).send({ error: err });
@@ -47,7 +49,10 @@ router.get("/:id", async (req, res) => {
     const results = await pool.query("SELECT * FROM products WHERE id = $1", [
       id,
     ]);
-    res.status(200).send(results.rows);
+    if (results.rowCount === 0) {
+      return res.status(404).send("Product not found");
+    }
+    res.status(200).send(results.rows[0]);
   } catch (error) {
     console.log(error);
     res.status(500).send({ error });
@@ -69,7 +74,9 @@ router.put("/:id", async (req, res) => {
       return res.status(404).send({ error: "Product not found." });
     }
 
-    res.status(201).send({message: "Data updated successfully", data: results.rows});
+    res
+      .status(201)
+      .send({ message: "Data updated successfully", data: results.rows });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
@@ -88,7 +95,9 @@ router.delete("/:id", async (req, res) => {
       res.status(200).send("No products found to delete");
     }
 
-    res.status(200).send({message : "Data deleted successfully", data : results.rows});
+    res
+      .status(200)
+      .send({ message: "Data deleted successfully", data: results.rows });
   } catch (error) {
     res.status(500).send(error);
   }

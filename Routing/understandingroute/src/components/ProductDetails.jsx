@@ -1,14 +1,32 @@
-import { useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const products = useSelector((state) => state.products);
-  const selectedProduct = products.find((p) => p.id === id);
-  
+  const [selectedProduct, setSelectedProduct] = useState({});
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${id}`)
+      .then((response) => {
+        const data = response.json();
+        if (response.ok) {
+          return data;
+        } else {
+          throw new Error(data);
+
+        }
+      })
+      .then((data) => {
+        return setSelectedProduct(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
   return (
     <div className="mx-6 mx-auto max-w-[800px]">
-      <div className="grid grid-cols-3 bg-gray-200 shadow-md mt-3 border border-neutral-50 round-md">
+      <div className="grid grid-cols-3 bg-neutral-50 shadow-md mt-3 border border-neutral-50 round-md">
         <img
           src={selectedProduct.image}
           alt={selectedProduct.name}

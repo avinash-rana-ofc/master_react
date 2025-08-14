@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import NotFound from "./components/NotFound";
 import ProductDetails from "./components/ProductDetails";
 import Products from "./components/Products";
+import AddProducts from "./components/AddProducts";
 
 function App() {
   // const routElements = useRoutes([
@@ -44,7 +45,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Products />} />
-            <Route path="/product-details/:id" element={<ProductDetails />} />
+          <Route path="/product-details/:id" element={<ProductDetails />} />
+          <Route path="/products">
+            <Route path="add" element={<AddProducts />} />
+          </Route>
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>

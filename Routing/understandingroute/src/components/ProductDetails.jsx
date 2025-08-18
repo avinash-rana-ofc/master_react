@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -40,6 +40,10 @@ const ProductDetails = () => {
           <span className="text-md text-neutral-500 leading-5">
             {selectedProduct.description}
           </span>
+          <div className="flex gap-2 my-3">
+            <Link to={`/products/edit/${id}`} className="px-3 py-1 border rounded-md">Edit Product</Link>
+            <button className="bg-red-500 px-3 py-1 rounded-md text-white">Delete Product</button>
+          </div>
         </div>
       </div>
     </div>

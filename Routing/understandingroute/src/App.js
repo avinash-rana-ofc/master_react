@@ -5,7 +5,7 @@ import Layout from "./components/Layout";
 import NotFound from "./components/NotFound";
 import ProductDetails from "./components/ProductDetails";
 import Products from "./components/Products";
-import AddProducts from "./components/AddProducts";
+import AddEditProducts from "./components/AddEditProducts";
 
 function App() {
   // const routElements = useRoutes([
@@ -47,7 +47,8 @@ function App() {
           <Route index element={<Products />} />
           <Route path="/product-details/:id" element={<ProductDetails />} />
           <Route path="/products">
-            <Route path="add" element={<AddProducts />} />
+            <Route path="add" element={<AddEditProducts />} />
+            <Route path="edit/:id" element={<AddEditProducts />} />
           </Route>
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />

@@ -1,21 +1,44 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AddProducts = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
-    name : "",
-    image : "",
-    price : "",
-    description : ""
+    name: "",
+    image: "",
+    price: "",
+    description: "",
   });
 
   const handleChange = (e) => {
-    setData({...data, [e.target.name] : e.target.value});
-  }
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const handleAddProduct = () => {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/products/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        const data = response.json();
+        if (response.ok) {
+          return data;
+        } else {
+          throw new Error(data);
+        }
+      })
+      .then((data) => {
+        alert(data.message);
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(data)
-  }
+    handleAddProduct();
+  };
 
   return (
     <div className="shadow-lg m-6 mx-auto p-10 border border-gray-50 rounded-md max-w-[1024px]">
@@ -62,7 +85,12 @@ const AddProducts = () => {
             required
           />
         </div>
-        <button type="submit" className="col-span-2 bg-blue-500 mx-auto my-4 px-3 py-1 rounded-md w-[400px] text-white">Submit</button>
+        <button
+          type="submit"
+          className="col-span-2 bg-blue-500 mx-auto my-4 px-3 py-1 rounded-md w-[400px] text-white"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );

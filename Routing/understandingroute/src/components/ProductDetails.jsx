@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [selectedProduct, setSelectedProduct] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${id}`)
@@ -23,10 +24,34 @@ const ProductDetails = () => {
       .catch((err) => {
         console.log(err);
       });
-  });
+  },[id]);
 
   const handleModalOpen = () => {
     setIsOpen(true);
+  }
+
+  const handleModalClose = () => {
+    setIsOpen(false);
+  }
+
+  const handleDeleteProduct = () => {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${id}`, {
+      method : "DELETE"
+    })
+    .then((response) => {
+      const data = response.json();
+      if(response.ok){
+        return data;
+      }
+      else{
+        throw new Error(data);
+      }
+    })
+    .then((data) => {
+      alert(data.message);
+      navigate("/");
+    })
+    .catch((err) => console.log(err));
   }
 
   return (
@@ -55,14 +80,14 @@ const ProductDetails = () => {
               >
                 Edit Product
               </Link>
-              <button className="bg-red-500 px-3 py-1 rounded-md text-white">
+              <button className="bg-red-500 px-3 py-1 rounded-md text-white" onClick={handleModalOpen}>
                 Delete Product
               </button>
             </div>
           </div>
         </div>
       </div>
-      {isOpen && <DeleteConfirmationModal handleModalOpen={handleModalOpen}/>}
+      {isOpen && <DeleteConfirmationModal handleModalClose={handleModalClose} handleDeleteProduct={handleDeleteProduct}/>}
     </>
   );
 };

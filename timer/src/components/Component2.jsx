@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import useCounterHook from "../hooks/useCounterHook";
 
 const Component2 = () => {
-  const [counter, setCounter] = useState(0);
-
-  const handleIncrement = () => {
-    setCounter(counter  + 1);
-  }
+  const {handleIncrement, counter} = useCounterHook(0, 2);
   return (
     <div className="flex justify-center items-center m-4 p-12 border rounded-md w-full h-[300px] text-center">
       <div className="flex flex-col gap-y-6">

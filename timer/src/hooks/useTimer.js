@@ -8,7 +8,7 @@ const useTimer = (initialValue, incrementBy) => {
       setTime((prev) => prev + incrementBy);
       return () => clearInterval(timer);
     }, 1000);
-  }, []);
+  }, [incrementBy]);
 
   return time;
 };

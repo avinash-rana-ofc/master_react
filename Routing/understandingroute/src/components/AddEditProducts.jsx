@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import useFetchProductDetails from "../hooks/useFetchProductDetails";
 
 const AddEditProducts = () => {
   const navigate = useNavigate();
@@ -11,23 +12,7 @@ const AddEditProducts = () => {
     description: "",
   });
 
-  useEffect(() => {
-    if (id) {
-      fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${id}`)
-        .then((response) => {
-          const data = response.json();
-          if (response.ok) {
-            return data;
-          } else {
-            throw new Error(data);
-          }
-        })
-        .then((data) => {
-          setData(data);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, []);
+  useFetchProductDetails(id, (product) => setData(product))
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });

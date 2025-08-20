@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import useFetchProductDetails from "../hooks/useFetchProductDetails";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -8,23 +9,7 @@ const ProductDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${id}`)
-      .then((response) => {
-        const data = response.json();
-        if (response.ok) {
-          return data;
-        } else {
-          throw new Error(data);
-        }
-      })
-      .then((data) => {
-        return setSelectedProduct(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },[id]);
+  useFetchProductDetails(id, (product) => setSelectedProduct(product));
 
   const handleModalOpen = () => {
     setIsOpen(true);

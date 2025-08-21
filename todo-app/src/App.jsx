@@ -20,10 +20,16 @@ function App() {
     )
   }
 
+  const deleteTodo = (id) => {
+    setTodos(
+      todos.filter((todo) => todo.id !== id)
+    )
+  }
+
   return (
     <div>
       <TodoForm onAdd={addTodo}></TodoForm>
-      <TodoList todos={todos} onToggle={toggleTaskStatus}></TodoList>
+      <TodoList todos={todos} onToggle={toggleTaskStatus} onDelete={deleteTodo}></TodoList>
     </div>
       
   )

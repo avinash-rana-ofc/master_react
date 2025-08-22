@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList';
+import TodoHeaders from './components/TodoHeaders';
 
 function App() {
   const [todos, setTodos] = useState(() => {
@@ -36,6 +37,7 @@ function App() {
   return (
     <div className='flex justify-center items-center bg-gradient-to-br from-indigo-500 to-purple-600 p-4 min-h-screen'>
       <div className='bg-white shadow-xl rounded-sm w-full max-w-xl overflow-hidden'>
+        <TodoHeaders todos={todos}/>
         <TodoForm onAdd={addTodo}></TodoForm>
         <TodoList todos={todos} onToggle={toggleTaskStatus} onDelete={deleteTodo}></TodoList>
       </div>

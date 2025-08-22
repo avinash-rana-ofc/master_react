@@ -1,9 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList';
+import TodoHeaders from './components/TodoHeaders';
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(() => {
+    const saveTodos = localStorage.getItem("todos");
+    return saveTodos ? JSON.parse(saveTodos) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const addTodo = (text) => {
     const todo = {
@@ -20,10 +28,19 @@ function App() {
     )
   }
 
+  const deleteTodo = (id) => {
+    setTodos(
+      todos.filter((todo) => todo.id !== id)
+    )
+  }
+
   return (
-    <div>
-      <TodoForm onAdd={addTodo}></TodoForm>
-      <TodoList todos={todos} onToggle={toggleTaskStatus}></TodoList>
+    <div className='flex justify-center items-center bg-gradient-to-br from-indigo-500 to-purple-600 p-4 min-h-screen'>
+      <div className='bg-white shadow-xl rounded-sm w-full max-w-xl overflow-hidden'>
+        <TodoHeaders todos={todos}/>
+        <TodoForm onAdd={addTodo}></TodoForm>
+        <TodoList todos={todos} onToggle={toggleTaskStatus} onDelete={deleteTodo}></TodoList>
+      </div>
     </div>
       
   )
